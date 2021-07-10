@@ -26,9 +26,9 @@ class _ImageLabelViewState extends State<ImageLabelView> {
       customPaint: customPaint,
       onImage: (inputImage) {
         // comment this line if you want to use custom model
-        // processImageWithDefaultModel(inputImage);
+         processImageWithDefaultModel(inputImage);
         // uncomment this line if you want to use custom model
-        processImageWithRemoteModel(inputImage);
+        //processImageWithRemoteModel(inputImage);
       },
     );
   }
