@@ -5,8 +5,10 @@ import 'package:google_ml_kit_example/NlpDetectorViews/entity_extraction_view.da
 import 'package:google_ml_kit_example/NlpDetectorViews/language_translator_view.dart';
 import 'package:google_ml_kit_example/NlpDetectorViews/smart_reply_view.dart';
 import 'package:google_ml_kit_example/VisionDetectorViews/object_detector_view.dart';
+import 'package:provider/provider.dart';
 
 import 'NlpDetectorViews/language_identifier_view.dart';
+import 'Provider/provider.dart';
 import 'VisionDetectorViews/detector_views.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +18,16 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   cameras = await availableCameras();
-  runApp(MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<ButtonProvider>(
+          create: (context) => ButtonProvider(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

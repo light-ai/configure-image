@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:google_ml_kit_example/Provider/provider.dart';
 import 'dart:ui' as ui;
 
 import 'coordinates_translator.dart';
@@ -34,8 +35,14 @@ class ObjectDetectorPainter extends CustomPainter {
           ui.TextStyle(color: Colors.lightGreenAccent, background: background));
 
       for (Label label in detectedObject.getLabels()) {
-        builder.addText('${label.getText()} ${label.getConfidence()}\n');
+        //text view
+        builder.addText('${label.getText()} ${label.getConfidence()} ${detectedObject.getBoundinBox()}\n');
+        ButtonProvider().name = label.getText();
       }
+
+      Rect a =  detectedObject.getBoundinBox();
+
+      //Rect getBoundingBox() => a;
 
       builder.pop();
 
@@ -65,6 +72,6 @@ class ObjectDetectorPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+    return true;
   }
 }
