@@ -13,6 +13,22 @@ class ButtonProvider extends ChangeNotifier{
   String name;
   int score;
 
+  void notify(){
+    notifyListeners();
+  }
+
+  /*Widget customButton(){
+    return
+  }*/
+
+  Widget customText(int score){
+    return Text("score: $score",
+    style: TextStyle(
+      fontSize: 20,
+    ),
+    );
+  }
+
   Widget circleWidget(double width){
     if(check % 2 == 1) {
       return Container(

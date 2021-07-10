@@ -20,6 +20,7 @@ class _ObjectDetectorView extends State<ObjectDetectorView> {
   late ObjectDetector objectDetector;
   late InputImage inputImage;
   String? name;
+  int score = 0;
 
   @override
   void initState() {
@@ -90,20 +91,31 @@ class _ObjectDetectorView extends State<ObjectDetectorView> {
                 width: 70.0,
                 child: FloatingActionButton(
                   child: Text(
-                    model.name,
+                    "${model.score}",
                     style: TextStyle(
                       //fontSize: 18,
                     ),
                   ),
                   onPressed: () {
                     model.check += 1;
+                    if(name == "Fish" || name == "Food"){
+                      model.score += 1;
+                    }
                     Future.delayed(Duration(milliseconds: 200))
                         .then((_) => model.check -= 1);
-                    push();
+                    model.notify();
                   },
                 ),
               ),
             );
+          },
+        ),
+        Consumer<ButtonProvider>(
+          builder: (context, model, child) {
+            return Text("score: ${model.score}",
+              style: TextStyle(
+                fontSize: 10,
+              ),);
           },
         ),
       ],
@@ -175,11 +187,5 @@ class _ObjectDetectorView extends State<ObjectDetectorView> {
     processImage(inputImage);
     //name = exchange(processImage(inputImage));
     print(processImage(inputImage));
-  }
-
-  void push(){
-    if(name == "Fish"){
-      print("ああああああああああああああああああああああああああああああああああああああ");
-    }
   }
 }
