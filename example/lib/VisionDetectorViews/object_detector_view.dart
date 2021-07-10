@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +19,12 @@ class _ObjectDetectorView extends State<ObjectDetectorView> {
   LocalModel model = LocalModel("object_labeler.tflite");
   late ObjectDetector objectDetector;
   late InputImage inputImage;
+  String? name;
 
   @override
   void initState() {
     Timer.periodic(
-      Duration(milliseconds: 300),
+      Duration(milliseconds: 200),
       _onTimer,
     );
     objectDetector = GoogleMlKit.vision.objectDetector(
@@ -94,10 +96,10 @@ class _ObjectDetectorView extends State<ObjectDetectorView> {
                     ),
                   ),
                   onPressed: () {
-                    print(model.name);
                     model.check += 1;
                     Future.delayed(Duration(milliseconds: 200))
                         .then((_) => model.check -= 1);
+                    push();
                   },
                 ),
               ),
@@ -128,9 +130,56 @@ class _ObjectDetectorView extends State<ObjectDetectorView> {
     if (mounted) {
       setState(() {});
     }
+    exchange(result);
+    /*late Label label;
+    for (DetectedObject detectedObject in result) {
+      final ParagraphBuilder builder = ParagraphBuilder(
+        ParagraphStyle(
+            textAlign: TextAlign.left,
+            fontSize: 16,
+            textDirection: TextDirection.ltr),
+      );
+      for (label in detectedObject.getLabels()) {
+        //text view
+        builder.addText(
+            '${label.getText()} ${label.getConfidence()} ${detectedObject
+                .getBoundinBox()}\n');
+      }
+    }
+    return label.getText();*/
+  }
+
+  String? exchange(dynamic data){
+    late Label label;
+    for (DetectedObject detectedObject in data) {
+      final ParagraphBuilder builder = ParagraphBuilder(
+        ParagraphStyle(
+            textAlign: TextAlign.left,
+            fontSize: 16,
+            textDirection: TextDirection.ltr),
+      );
+
+      for (label in detectedObject.getLabels()) {
+        //text view
+        builder.addText(
+            '${label.getText()} ${label.getConfidence()} ${detectedObject
+                .getBoundinBox()}\n');
+      }
+      print(label.getText());
+      name = label.getText();
+      return label.getText();
+    }
   }
 
   void _onTimer(Timer timer){
     processImage(inputImage);
+    //name = exchange(processImage(inputImage));
+    print(processImage(inputImage));
+  }
+
+  void push(){
+    if(name == "Fish"){
+      print("ああああああああああああああああああああああああああああああああああああああ");
+    }
   }
 }

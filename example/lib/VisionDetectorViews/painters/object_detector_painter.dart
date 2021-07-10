@@ -37,7 +37,6 @@ class ObjectDetectorPainter extends CustomPainter {
       for (Label label in detectedObject.getLabels()) {
         //text view
         builder.addText('${label.getText()} ${label.getConfidence()} ${detectedObject.getBoundinBox()}\n');
-        ButtonProvider().name = label.getText();
       }
 
       Rect a =  detectedObject.getBoundinBox();
